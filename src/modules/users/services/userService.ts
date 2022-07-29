@@ -56,7 +56,7 @@ export class UserService {
             throw new AppError("Email or password incorrect");
         }
 
-        const token = sign({}, "6eb51784aeb24e7fed5ce4fe9f27b0bd", {
+        const token = sign({userId: findUserByEmail.id}, "6eb51784aeb24e7fed5ce4fe9f27b0bd", {
             subject: findUserByEmail.id,
             expiresIn: "15d",
         })

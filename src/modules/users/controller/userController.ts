@@ -1,5 +1,6 @@
 import { User } from "@/entity/User";
 import { Request, Response } from "express";
+import { decode } from "jsonwebtoken";
 import { container } from "tsyringe";
 import { createUserDTO } from "../repository/dto/createUserDTO";
 import { UserService } from "../services/userService";
@@ -25,6 +26,12 @@ export class UserController {
 
     async findByEmail(request: Request, response: Response): Promise<Response> {
         const { email } = request.body;
+
+        const authToken = request.headers.authorization;
+        const [, token] = authToken.split(" ");
+
+        const a = decode(token)
+        console.log('a --->', a)
 
         const userService = container.resolve(UserService)
         const user = await userService.findByEmail(email)

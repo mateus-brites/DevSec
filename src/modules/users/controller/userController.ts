@@ -32,4 +32,13 @@ export class UserController {
         return response.status(200).json(user)
     }
 
+    async logIn(request: Request, response: Response): Promise<Response>{
+        const { email, password } = request.body;
+
+        const userService = container.resolve(UserService);
+
+        const token = await userService.logIn(email, password);
+
+        return response.status(201).json(token);
+    }
 }

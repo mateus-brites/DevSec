@@ -1,8 +1,11 @@
 import { inject, injectable } from "tsyringe";
 import { IUserRepository } from "../repository/IUserRepository";
 import { hash } from "bcryptjs"
+import { compare } from "bcryptjs";
 import { createUserDTO } from "../repository/dto/createUserDTO";
 import { User } from "@/entity/User";
+import { AppError } from "@/error/AppError";
+import { sign } from "jsonwebtoken";
 
 @injectable()
 export class UserService {
@@ -36,5 +39,28 @@ export class UserService {
         }
 
         return(user)
+    }
+
+    async logIn(email: string, password: string): Promise<string> {
+        const findUserByEmail = await this.usersRepository.findByEmail(email);
+
+        if (!findUserByEmail) {
+            throw new AppError("Email or password incorrect");
+        }
+
+        const passwordHashed = findUserByEmail.password
+
+        const passwordMath = await compare(password, passwordHashed);
+
+        if(!passwordMath) {
+            throw new AppError("Email or password incorrect");
+        }
+
+        const token = sign({}, "6eb51784aeb24e7fed5ce4fe9f27b0bd", {
+            subject: findUserByEmail.id,
+            expiresIn: "15d",
+        })
+
+        return token;
     }
 }

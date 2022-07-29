@@ -1,8 +1,9 @@
 import "reflect-metadata"
-import express, { response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import { myDataSource } from "./app-data-source"
 import { router } from "./routes"
 import "./container"
+import { AppError } from "./error/AppError"
 
 myDataSource
     .initialize()
@@ -17,6 +18,19 @@ myDataSource
 const app = express();
 app.use(express.json())
 app.use(router)
+
+app.use(
+    (err: Error, request: Request, response: Response, next: NextFunction) => {
+        if (err instanceof AppError) {
+            return response.status(err.statuscode).json({ message: err.message});
+        }app
+
+        return response.status(500).json({
+            status: "Error",
+            message: `Internal server Error ${err}`,
+        });
+    }
+)
 
 app.get('/',(request, response) => {
     return response.json({message: 'Bem vindo'})

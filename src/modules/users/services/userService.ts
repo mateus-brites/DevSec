@@ -17,4 +17,24 @@ export class UserService {
 
         return user;
     }
+
+    async findByEmail(email: string): Promise<User> {
+        const user = await this.usersRepository.findByEmail(email)
+
+        if(!user) {
+            return;
+        }
+
+        return(user)
+    }
+
+    async findById(email: string): Promise<User> {
+        const user = await this.usersRepository.findById(email)
+
+        if(!user) {
+            return;
+        }
+
+        return(user)
+    }
 }

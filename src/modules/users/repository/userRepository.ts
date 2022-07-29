@@ -20,4 +20,22 @@ export class UserRepository {
 
         return newUser
     }
+
+    async findByEmail(email: string) {
+        const user = await this.repository.createQueryBuilder('user')
+            .select()
+            .where(`user.email = '${email}'`)
+            .getOne()
+
+        return user
+    }
+
+    async findById(userId: string) {
+        const user = await this.repository.createQueryBuilder('user')
+            .select()
+            .where(`user.id = '${userId}'`)
+            .getOne()
+
+        return user
+    }
 }

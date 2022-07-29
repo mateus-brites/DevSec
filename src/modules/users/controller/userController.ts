@@ -6,8 +6,6 @@ import { UserService } from "../services/userService";
 
 export class UserController {
     async createUser(request: Request, response: Response): Promise<Response> {
-        console.log('   JKSHNFKSJNBDSKJGVNBDSKJHB J JRF')
-        console.log(request)
         const { email, password, username }: createUserDTO = request.body;
 
         const userService = container.resolve(UserService)
@@ -15,4 +13,23 @@ export class UserController {
 
         return response.status(200).json(newUser)
     }
+
+    async findById(request: Request, response: Response): Promise<Response> {
+        const { userId } = request.body;
+
+        const userService = container.resolve(UserService)
+        const user = await userService.findById(userId)
+
+        return response.status(200).json(user)
+    }
+
+    async findByEmail(request: Request, response: Response): Promise<Response> {
+        const { email } = request.body;
+
+        const userService = container.resolve(UserService)
+        const user = await userService.findByEmail(email)
+
+        return response.status(200).json(user)
+    }
+
 }

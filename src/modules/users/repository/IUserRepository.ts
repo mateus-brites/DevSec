@@ -2,7 +2,8 @@ import { User } from "@/entity/User";
 import { createUserDTO } from "./dto/createUserDTO";
 
 export interface IUserRepository {
-    createUser({ email, password, username }: createUserDTO): Promise<User>;
+    createUser({ email, password, username, id }: createUserDTO): Promise<User>;
     findById(userId: string): Promise<User>;
     findByEmail(email: string): Promise<User>;
+    friendRequest(sender: User, receiver: User): Promise<void>
 }

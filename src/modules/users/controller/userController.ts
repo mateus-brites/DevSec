@@ -1,6 +1,7 @@
 import { User } from "@/entity/User";
 import { Request, Response } from "express";
 import { decode } from "jsonwebtoken";
+import { report } from "process";
 import { container } from "tsyringe";
 import { createUserDTO } from "../repository/dto/createUserDTO";
 import { UserService } from "../services/userService";
@@ -47,5 +48,22 @@ export class UserController {
         const token = await userService.logIn(email, password);
 
         return response.status(201).json(token);
+    }
+
+    async requestFriend(request: Request, response: Response): Promise<Response> {
+        const {receiverId} = request.body;
+
+        const authToken = request.headers.authorization;
+        const [, token] = authToken.split(" ");
+
+        const data = decode(token)
+
+        const senderId = data.sub as string
+
+        const userService = container.resolve(UserService);
+
+        await userService.friendRequest(senderId, receiverId);
+
+        return response.status(201).json()
     }
 }

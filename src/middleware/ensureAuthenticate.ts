@@ -18,7 +18,9 @@ export function ensureAuthenticate(request: Request, response: Response, next: N
     try {
         const { sub: user_id } = verify(token, "6eb51784aeb24e7fed5ce4fe9f27b0bd");
 
-        //request.user_id = user_id as string;
+        if(!user_id) {
+            throw new AppError('user unauthorized')
+        }
 
         return next();
     } catch {

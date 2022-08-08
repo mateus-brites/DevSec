@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid_v4 } from 'uuid'
 
 @Entity('users')
@@ -15,6 +15,22 @@ export class User {
 
     @Column()
     email: string
+
+    @ManyToMany(() => User)
+    @JoinTable({
+        name: "friend_request",
+        joinColumn: {
+            name: "sender",
+            referencedColumnName: "id",
+            foreignKeyConstraintName: "fk_user_user_sender"
+        },
+        inverseJoinColumn: {
+            name: "receiver",
+            referencedColumnName: "id",
+            foreignKeyConstraintName: "fk_user_user_cereiver"
+        }
+    })
+    friendRequest: User[]
 
     @CreateDateColumn()
     created_at: Date

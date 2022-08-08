@@ -49,21 +49,4 @@ export class UserController {
 
         return response.status(201).json(token);
     }
-
-    async requestFriend(request: Request, response: Response): Promise<Response> {
-        const {receiverId} = request.body;
-
-        const authToken = request.headers.authorization;
-        const [, token] = authToken.split(" ");
-
-        const data = decode(token)
-
-        const senderId = data.sub as string
-
-        const userService = container.resolve(UserService);
-
-        await userService.friendRequest(senderId, receiverId);
-
-        return response.status(201).json()
-    }
 }

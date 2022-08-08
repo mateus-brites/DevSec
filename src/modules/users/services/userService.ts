@@ -63,28 +63,4 @@ export class UserService {
 
         return token;
     }
-
-    async friendRequest(senderId: string, receiverId: string) {
-        const findSender = await this.usersRepository.findById(senderId);
-
-        if(!findSender) {
-            throw new AppError("User not found")
-        }
-
-        const findReceiver = await this.usersRepository.findById(receiverId);
-
-        if(!findReceiver) {
-            throw new AppError("User not found")
-        }
-        console.log('NO SERVER: ', findSender)
-
-        findSender.friendRequest = [findReceiver]
-
-
-        // await this.usersRepository.friendRequest(findSender, findReceiver)
-
-        await this.usersRepository.createUser(findSender)
-
-        return
-    }
 }

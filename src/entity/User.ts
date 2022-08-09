@@ -16,6 +16,20 @@ export class User {
     @Column()
     email: string
 
+    @ManyToMany(type => User)
+    @JoinTable({
+    name: "follows", // table name for the junction table of this relation
+    joinColumn: {
+        name: "follower",
+        referencedColumnName: "id"
+    },
+    inverseJoinColumn: {
+        name: "following",
+        referencedColumnName: "id"
+    }
+})
+    follow: User[]
+
     @CreateDateColumn()
     created_at: Date
 

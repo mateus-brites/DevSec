@@ -49,4 +49,21 @@ export class UserController {
 
         return response.status(201).json(token);
     }
+
+    async follow(request: Request, response: Response): Promise<Response> {
+        console.log('hjskfbgjshkfvbsdfjhkvbdsjfbvsdjk')
+        const { id } = request.params
+
+        const authToken = request.headers.authorization;
+        const [, token] = authToken.split(" ");
+
+        const jwt = decode(token)
+        const userId = jwt.sub as string
+
+        const userService = container.resolve(UserService);
+
+        await userService.follow(userId, id)
+
+        return response.status(201).json()
+    }
 }

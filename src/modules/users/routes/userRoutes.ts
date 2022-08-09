@@ -9,6 +9,7 @@ userRouter.post('/user/create', userController.createUser)
 userRouter.post('/user/login', userController.logIn)
 userRouter.get('/user/find/email', userController.findByEmail)
 userRouter.get('/user/find/userId', userController.findById)
+userRouter.post('/user/follow/:id', userController.follow)
 
 
 export { userRouter }

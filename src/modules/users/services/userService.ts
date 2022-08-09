@@ -63,4 +63,22 @@ export class UserService {
 
         return token;
     }
+
+    async follow(userId: string, followId: string): Promise<void> {
+        const user = await this.usersRepository.findById(userId)
+
+        if(!user) {
+            throw new AppError('User not found')
+        }
+
+        const follow = await this.usersRepository.findById(followId)
+
+        if(!follow) {
+            throw new AppError('User not found')
+        }
+
+        await this.usersRepository.follow(user, follow)
+        
+        return
+    }
 }

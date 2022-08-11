@@ -6,4 +6,5 @@ export interface IUserRepository {
     findById(userId: string): Promise<User>;
     findByEmail(email: string): Promise<User>;
     follow(follower: User, following: User): Promise<void>
+    saveUser(user: User): Promise<User>
 }

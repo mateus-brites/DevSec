@@ -6,6 +6,7 @@ import { createUserDTO } from "../repository/dto/createUserDTO";
 import { User } from "@/entity/User";
 import { AppError } from "@/error/AppError";
 import { sign } from "jsonwebtoken";
+import { deleteFile } from "@/utils/file";
 
 @injectable()
 export class UserService {
@@ -81,4 +82,18 @@ export class UserService {
         
         return
     }
+
+    async addAvatar(id: string, avatar: string): Promise<User> {
+        const user = await this.usersRepository.findById(id);
+
+    if (user.avatar) {
+      await deleteFile(`./tmp/avatar/${user.avatar}`);
+    }
+
+    user.avatar = avatar
+
+    const updatedUser = await this.usersRepository.saveUser(user)
+
+    return updatedUser
+  }
 }

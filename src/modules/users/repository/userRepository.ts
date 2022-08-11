@@ -14,9 +14,7 @@ export class UserRepository implements IUserRepository {
         follower.follow = []
         const follows = await this.repository.query(`SELECT following FROM follows WHERE follows.follower = '${follower.id}'`)
         for (const follow of follows) {
-            console.log('FOLLOW ----->>>', follow, follow.following)
             const user = await this.findById(follow.following)
-            console.log('USER --------->>>', user)
             follower.follow = [...follower.follow, user]
         }
         follower.follow = [...follower.follow, following]
@@ -25,15 +23,12 @@ export class UserRepository implements IUserRepository {
         return
     }
 
-    async createUser({ email, password, username, id, follow }: createUserDTO): Promise<User> {
-        // const a = await this.repository.query('select * from users')
-        // console.log(a)
+    async createUser({ email, password, username, id }: createUserDTO): Promise<User> {
         const newUser = this.repository.create({
             username,
             email,
             password,
-            id,
-            follow
+            id
         })
         await this.repository.save(newUser)
 
@@ -58,5 +53,10 @@ export class UserRepository implements IUserRepository {
         return user
     }
 
-    
+    async saveUser(user: User): Promise<User> {
+        
+        const updatedUser = await this.repository.save(user)
+
+        return updatedUser
+    }
 }

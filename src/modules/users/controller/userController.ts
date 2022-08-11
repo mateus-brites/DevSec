@@ -51,7 +51,6 @@ export class UserController {
     }
 
     async follow(request: Request, response: Response): Promise<Response> {
-        console.log('hjskfbgjshkfvbsdfjhkvbdsjfbvsdjk')
         const { id } = request.params
 
         const authToken = request.headers.authorization;
@@ -65,5 +64,21 @@ export class UserController {
         await userService.follow(userId, id)
 
         return response.status(201).json()
+    }
+
+    async addAvatar(request: Request, response: Response): Promise<Response> {
+        const authToken = request.headers.authorization;
+        const [, token] = authToken.split(" ");
+
+        const jwt = decode(token)
+        const userId = jwt.sub as string
+
+        const avatar = request.file.filename
+
+        const userService = container.resolve(UserService);
+
+        const user = userService.addAvatar(userId, avatar)
+
+        return response.status(204).json(user)
     }
 }

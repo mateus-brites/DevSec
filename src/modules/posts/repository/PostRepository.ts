@@ -40,7 +40,6 @@ export class PostRepository implements IPostRepository {
             .select()
             .where(`post.id = ${id}`)
             .getOne()
-
         return post
     }
     async getAllByUserId(userId: string): Promise<Post[]> {
@@ -48,7 +47,6 @@ export class PostRepository implements IPostRepository {
             .select()
             .where(`post.userId = ${userId}`)
             .getMany()
-
         return posts
     }
 }

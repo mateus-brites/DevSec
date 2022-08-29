@@ -55,7 +55,7 @@
             }
         },
         "/user/login": {
-            "get": {
+            "post": {
                 "tags": ["User"],
                 "summary": "Login",
                 "description": "Login with your account",
@@ -90,41 +90,8 @@
                 }
             }
         },
-        "/user/find/email": {
-            "get": {
-                "tags": ["User"],
-                "security": [{ "bearerAuth": [] }],
-                "summary": "Find user by email",
-                "description": "Find user by email",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "email": {
-                                        "type": "string"
-                                    }
-                                },
-                                "example": {
-                                    "email": "mateusmmo15@gmail.com"
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Sucess"
-                    },
-                    "400": {
-                        "description": "Email not found"
-                    }
-                }
-            }
-        },
         "/user/follow/{id}": {
-            "patch": {
+            "post": {
                 "tags": ["User"],
                 "security": [{ "bearerAuth": [] }],
                 "summary": "Find user by email",
@@ -151,7 +118,7 @@
             }
         },
         "/user/avatar": {
-            "post": {
+            "patch": {
                 "tags": ["User"],
                 "security": [{ "bearerAuth": [] }],
                 "summary": "Add avatar",

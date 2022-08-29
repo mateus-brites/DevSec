@@ -15,10 +15,15 @@ export class PostController {
         const userId = jwt.sub as string
 
         const postService = container.resolve(PostService);
+        
+        try {
+            const post = await postService.postThought(userId, description)
+    
+            return response.status(201).json(post);
 
-        const post = await postService.postThought(userId, description)
-
-        return response.status(201).json(post);
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
     }
 
     async editPost(request: Request, response: Response): Promise<Response> {
@@ -27,9 +32,14 @@ export class PostController {
 
         const postService = container.resolve(PostService);
 
-        const updatedPost = await postService.editPost(postId, description)
+        try {
+            const updatedPost = await postService.editPost(postId, description)
+    
+            return response.status(201).json(updatedPost)
 
-        return response.status(201).json(updatedPost)
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
     }
 
     async deletePost(request: Request, response: Response): Promise<Response> {
@@ -37,9 +47,14 @@ export class PostController {
 
         const postService = container.resolve(PostService);
 
-        await postService.deletePost(postId)
+        try {
+            await postService.deletePost(postId)
+    
+            return response.status(201).send()
 
-        return response.status(201).send()
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
     }
 
     async uploadVideo(request: Request, response: Response): Promise<Response> {
@@ -53,8 +68,13 @@ export class PostController {
 
         const postService = container.resolve(PostService);
 
-        const post = postService.uploadVideo(video, userId)
+        try {
+            const post = postService.uploadVideo(video, userId)
+    
+            return response.status(204).json(post)
 
-        return response.status(204).json(post)
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
     }
 }

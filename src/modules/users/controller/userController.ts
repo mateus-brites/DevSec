@@ -11,18 +11,30 @@ export class UserController {
         const { email, password, username }: createUserDTO = request.body;
 
         const userService = container.resolve(UserService)
-        const newUser = await userService.createUser({ username, password, email})
 
-        return response.status(200).json(newUser)
+        try {
+            const newUser = await userService.createUser({ username, password, email})
+    
+            return response.status(200).json(newUser)
+
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
     }
 
     async findById(request: Request, response: Response): Promise<Response> {
         const { userId } = request.body;
 
         const userService = container.resolve(UserService)
-        const user = await userService.findById(userId)
 
-        return response.status(200).json(user)
+        try {
+            const user = await userService.findById(userId)
+    
+            return response.status(200).json(user)
+
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
     }
 
     async findByEmail(request: Request, response: Response): Promise<Response> {
@@ -35,9 +47,15 @@ export class UserController {
         console.log('a --->', a)
 
         const userService = container.resolve(UserService)
-        const user = await userService.findByEmail(email)
 
-        return response.status(200).json(user)
+        try {
+            const user = await userService.findByEmail(email)
+    
+            return response.status(200).json(user)
+
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
     }
 
     async logIn(request: Request, response: Response): Promise<Response>{
@@ -45,9 +63,15 @@ export class UserController {
 
         const userService = container.resolve(UserService);
 
-        const token = await userService.logIn(email, password);
+        try {
+            const token = await userService.logIn(email, password);
+    
+            return response.status(201).json(token);
 
-        return response.status(201).json(token);
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
+
     }
 
     async follow(request: Request, response: Response): Promise<Response> {
@@ -61,9 +85,14 @@ export class UserController {
 
         const userService = container.resolve(UserService);
 
-        await userService.follow(userId, id)
+        try {
+            await userService.follow(userId, id)
+    
+            return response.status(201).json()
 
-        return response.status(201).json()
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
     }
 
     async addAvatar(request: Request, response: Response): Promise<Response> {
@@ -77,8 +106,14 @@ export class UserController {
 
         const userService = container.resolve(UserService);
 
-        const user = userService.addAvatar(userId, avatar)
+        try {
+            const user = await userService.addAvatar(userId, avatar)
+    
+            return response.status(204).json(user)
 
-        return response.status(204).json(user)
+        } catch(err) {
+            return response.status(err.statuscode).json({"message": err.message})
+        }
+
     }
 }

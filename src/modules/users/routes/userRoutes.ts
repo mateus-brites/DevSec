@@ -12,7 +12,7 @@ const userController = new UserController()
 const uploadAvatar = multer(uploadConfig.upload("./tmp/avatar"));
 
 userRouter.post('/user/create', userController.createUser)
-userRouter.post('/user/login', userController.logIn)
+userRouter.get('/user/login', userController.logIn)
 userRouter.get('/user/find/email',ensureAuthenticate, userController.findByEmail)
 userRouter.get('/user/find/userId',ensureAuthenticate, userController.findById)
 userRouter.post('/user/follow/:id',ensureAuthenticate, userController.follow)

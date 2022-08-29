@@ -1,0 +1,199 @@
+{
+    "openapi": "3.0.0",
+    "infor": {
+        "title": "Exchange-api-docs",
+        "contact": {
+            "email": "mateusmmo15@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3333/",
+            "description": "API de test"
+        }
+    ],
+    "paths": {
+        "/user/create": {
+            "post": {
+                "tags": ["User"],
+                "summary": "Create a user",
+                "description": "Create a new user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "username": "Mateus Brites",
+                                    "email": "mateusmmo15@gmail.com",
+                                    "password": "StrongPassword"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Email is in use"
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "get": {
+                "tags": ["User"],
+                "summary": "Login",
+                "description": "Login with your account",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "email": "mateusmmo15@gmail.com",
+                                    "password": "StrongPassword"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login"
+                    },
+                    "400": {
+                        "description": "Email or password incorrect"
+                    }
+                }
+            }
+        },
+        "/user/find/email": {
+            "get": {
+                "tags": ["User"],
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Find user by email",
+                "description": "Find user by email",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "email": "mateusmmo15@gmail.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucess"
+                    },
+                    "400": {
+                        "description": "Email not found"
+                    }
+                }
+            }
+        },
+        "/user/follow/{id}": {
+            "patch": {
+                "tags": ["User"],
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Find user by email",
+                "description": "Find user by email",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schemas":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Sucess"
+                    },
+                    "400": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/user/avatar": {
+            "post": {
+                "tags": ["User"],
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Add avatar",
+                "description": "Add avatar image",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Company": {
+                "type": "object",
+                "properties": {
+                    "company": {
+                        "type": "string"
+                    },
+                    "exchange_valuew": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

@@ -17,6 +17,12 @@ export class UserService {
 
     async createUser({ username, password, email }: createUserDTO): Promise<User>{
         const passwordHashed = await hash(password, 8);
+        const userAlreadyExist = await  this.usersRepository.findByEmail(email);
+
+        if (userAlreadyExist) {
+            console.log('DEU ERRO AQUI')
+                throw new AppError('Email is in use')
+        }
         const user = await this.usersRepository.createUser({ username, password: passwordHashed, email });
 
         return user;
@@ -26,7 +32,7 @@ export class UserService {
         const user = await this.usersRepository.findByEmail(email)
 
         if(!user) {
-            return;
+            throw new AppError('Email not found', 400)
         }
 
         return(user)
@@ -46,7 +52,7 @@ export class UserService {
         const findUserByEmail = await this.usersRepository.findByEmail(email);
 
         if (!findUserByEmail) {
-            throw new AppError("Email or password incorrect");
+            throw new AppError("Email or password incorrect", 400);
         }
 
         const passwordHashed = findUserByEmail.password
@@ -54,7 +60,7 @@ export class UserService {
         const passwordMath = await compare(password, passwordHashed);
 
         if(!passwordMath) {
-            throw new AppError("Email or password incorrect");
+            throw new AppError("Email or password incorrect", 400);
         }
 
         const token = sign({userId: findUserByEmail.id}, "6eb51784aeb24e7fed5ce4fe9f27b0bd", {
@@ -75,7 +81,7 @@ export class UserService {
         const follow = await this.usersRepository.findById(followId)
 
         if(!follow) {
-            throw new AppError('User not found')
+            throw new AppError('User not found', 400)
         }
 
         await this.usersRepository.follow(user, follow)

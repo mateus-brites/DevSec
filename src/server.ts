@@ -1,5 +1,7 @@
 import "reflect-metadata"
 import express, { NextFunction, Request, Response } from 'express'
+import swaggerUi from "swagger-ui-express";
+import swaggerDocs from "./swagger.json";
 import { myDataSource } from "./app-data-source"
 import { router } from "./routes"
 import "./container"
@@ -18,12 +20,13 @@ myDataSource
 const app = express();
 app.use(express.json())
 app.use(router)
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(
     (err: Error, request: Request, response: Response, next: NextFunction) => {
         if (err instanceof AppError) {
             return response.status(err.statuscode).json({ message: err.message});
-        }app
+        }
 
         return response.status(500).json({
             status: "Error",

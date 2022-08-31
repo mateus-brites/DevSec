@@ -195,6 +195,53 @@
                     }
                 }
             }
+        },
+        "/post/update/{postId}": {
+            "put": {
+                "tags": ["Post"],
+                "summary": "Create a post",
+                "description": "Create a new post",
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "description": "post id",
+                        "required": true,
+                        "schemas":{
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "description": "Contactme on mateusmmo15@gmail.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Change"
+                    },
+                    "404": {
+                        "description": "post not found"
+                    },
+                    "403": {
+                        "description": "Acess denied"
+                    }
+                }
+            }
         }
     },
     "components": {

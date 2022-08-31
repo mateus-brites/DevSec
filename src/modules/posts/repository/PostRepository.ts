@@ -41,14 +41,12 @@ export class PostRepository implements IPostRepository {
             .select()
             .where(`post.id = ${id}`)
             .getOne()
-        console.log({post})
+
+        console.log('SAI DO REPOSITORY', post)
         return post
     }
     async getAllByUserId(userId: string): Promise<Post[]> {
-        const posts = await this.repository.createQueryBuilder('post')
-            .select()
-            .where(`post.userId = ${userId}`)
-            .getMany()
+        const posts: Post[] = await this.repository.query(`SELECT * FROM post WHERE post."userId" = '${userId}'`)
         return posts
     }
 }

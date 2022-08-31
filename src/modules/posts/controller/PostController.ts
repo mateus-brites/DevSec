@@ -34,12 +34,23 @@ export class PostController {
 
         const postService = container.resolve(PostService);
 
+        const authToken = request.headers.authorization;
+        const [, token] = authToken.split(" ");
+
+        const jwt = decode(token)
+        console.log(token)
+        const userId = jwt.sub as string
+
+
         try {
-            const updatedPost = await postService.editPost(postId, description)
+            const updatedPost = await postService.editPost(postId, description, userId)
+            console.log({updatedPost})
     
-            return response.status(201).json(updatedPost)
+            return response.status(200).json(updatedPost)
 
         } catch(err) {
+            console.log('ENTREI NESSE AQUI')
+            console.log(err)
             return response.status(err.statuscode).json({"message": err.message})
         }
     }

@@ -6,12 +6,14 @@ import { PostService } from "../services/PostService";
 
 export class PostController {
     async createThought(request: Request, response: Response): Promise<Response> {
-        const {description} = request.body;
+        const { description } = request.body;
+        console.log('oi')
 
         const authToken = request.headers.authorization;
         const [, token] = authToken.split(" ");
 
         const jwt = decode(token)
+        console.log(token)
         const userId = jwt.sub as string
 
         const postService = container.resolve(PostService);

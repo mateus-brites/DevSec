@@ -9,6 +9,7 @@ import { verify } from "jsonwebtoken";
 export function ensureAuthenticate(request: Request, response: Response, next: NextFunction){
     const authToken = request.headers.authorization;
 
+
     if(!authToken) {
         throw new AppError("Token is missing!", 401);
     }
@@ -23,7 +24,8 @@ export function ensureAuthenticate(request: Request, response: Response, next: N
         }
 
         return next();
-    } catch {
+    } catch(err) {
+        console.log(err)
         throw new AppError("Token is invalid!", 401);
     }
 }

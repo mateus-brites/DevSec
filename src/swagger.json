@@ -139,6 +139,62 @@
                     }
                 }
             }
+        },
+        "/post": {
+            "post": {
+                "tags": ["Post"],
+                "summary": "Create a post",
+                "description": "Create a new post",
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "description": "O que achou da aplicação ?"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "user not found"
+                    }
+                }
+            }
+        },
+        "/post/film": {
+            "patch": {
+                "tags": ["Post"],
+                "security": [{ "bearerAuth": [] }],
+                "summary": "upload a video",
+                "description": "add post video",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "video": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

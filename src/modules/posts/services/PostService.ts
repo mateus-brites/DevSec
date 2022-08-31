@@ -28,7 +28,7 @@ export class PostService {
         const user = await this.usersRepository.findById(userId)
 
         if(!user) {
-            throw new AppError('User not found')
+            throw new AppError('User not found', 400)
         }
 
         const post = await this.postRepository.postThought(description, user)

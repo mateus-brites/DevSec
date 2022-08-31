@@ -1,8 +1,8 @@
+import { ensureAuthenticate } from '@/middleware/ensureAuthenticate';
 import { Router } from 'express'
 import { UserController } from '../controller/userController'
 import multer from "multer";
 import uploadConfig from '../../../config/upload'
-import { ensureAuthenticate } from '@/middleware/ensureAuthenticate';
 
 
 const userRouter = Router()

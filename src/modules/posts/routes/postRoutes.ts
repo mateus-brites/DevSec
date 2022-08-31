@@ -13,7 +13,7 @@ const uploadVideo = multer(uploadConfig.upload("./tmp/video"));
 
 postRouter.post('/post', ensureAuthenticate, postController.createThought)
 postRouter.post('/post/film',ensureAuthenticate, uploadVideo.single("video"), postController.uploadVideo)
-postRouter.put('/post/thought/:postId', ensureAuthenticate, postController.editPost)
+postRouter.put('/post/update/:postId', ensureAuthenticate, postController.editPost)
 postRouter.delete('/post/thought/:postId', ensureAuthenticate, postController.deletePost)
 
 export { postRouter }

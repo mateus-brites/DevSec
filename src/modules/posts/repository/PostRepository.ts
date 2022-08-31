@@ -36,14 +36,16 @@ export class PostRepository implements IPostRepository {
         await this.repository.delete(id);
     }
     async getById(id: string): Promise<Post> {
-        const post = await this.repository.createQueryBuilder()
+        console.log('ENTREI NO REPOSITORY')
+        const post = await this.repository.createQueryBuilder('post')
             .select()
             .where(`post.id = ${id}`)
             .getOne()
+        console.log({post})
         return post
     }
     async getAllByUserId(userId: string): Promise<Post[]> {
-        const posts = await this.repository.createQueryBuilder()
+        const posts = await this.repository.createQueryBuilder('post')
             .select()
             .where(`post.userId = ${userId}`)
             .getMany()

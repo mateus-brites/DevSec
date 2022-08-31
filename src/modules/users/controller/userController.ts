@@ -29,6 +29,7 @@ export class UserController {
 
         try {
             const user = await userService.findById(userId)
+            console.log(user)
     
             return response.status(200).json(user)
 

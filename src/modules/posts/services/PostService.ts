@@ -1,6 +1,7 @@
 import { Post } from "@/entity/Post";
 import { AppError } from "@/error/AppError";
 import { IUserRepository } from "@modules/users/repository/IUserRepository";
+import { Console } from "console";
 import { inject, injectable } from "tsyringe";
 import { IPostRepository } from "../repository/IPostRepository";
 
@@ -37,9 +38,12 @@ export class PostService {
     }
 
     async editPost(postId: string, description: string): Promise<Post> {
+        console.log('entrei')
         const post = await this.postRepository.getById(postId);
+        console.log('after get by id')
 
         if(!post) {
+            console.log('NOT FIND')
             throw new AppError('Can not found post')
         }
 

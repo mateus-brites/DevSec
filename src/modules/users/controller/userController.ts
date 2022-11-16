@@ -51,8 +51,18 @@ export class UserController {
 
         try {
             const user = await userService.findByEmail(email)
+            const userWithOutPass: Omit<User, 'password'> = {
+                avatar: user.avatar,
+                className: user.className,
+                created_at: user.created_at,
+                email: user.email,
+                follow: user.follow,
+                id: user.id,
+                updated_at: user.updated_at,
+                username: user.username
+            }
     
-            return response.status(200).json(user)
+            return response.status(200).json(userWithOutPass)
 
         } catch(err) {
             return response.status(err.statuscode).json({"message": err.message})

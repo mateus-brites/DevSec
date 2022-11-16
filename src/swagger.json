@@ -54,6 +54,39 @@
                 }
             }
         },
+        "/user/find/email": {
+            "post": {
+                "tags": ["User"],
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Find a user",
+                "description": "find a user by email",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "email": "mateusmmo15@gmail.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Founded"
+                    },
+                    "400": {
+                        "description": "Email not found"
+                    }
+                }
+            }
+        },
         "/user/login": {
             "post": {
                 "tags": ["User"],
